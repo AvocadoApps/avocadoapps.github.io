@@ -8,7 +8,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Outfit:wght@500;700;900&display=swap"
+        rel="stylesheet">
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><path d=%22M50 5 C 30 5, 10 35, 10 60 C 10 82, 28 95, 50 95 C 72 95, 90 82, 90 60 C 90 35, 70 5, 50 5 Z%22 fill=%22%23386641%22/><path d=%22M50 15 C 35 15, 20 38, 20 60 C 20 78, 32 88, 50 88 C 68 88, 80 78, 80 60 C 80 38, 65 15, 50 15 Z%22 fill=%22%23D4E157%22/><circle cx=%2250%22 cy=%2265%22 r=%2216%22 fill=%22%236D4C41%22/><circle cx=%2245%22 cy=%2260%22 r=%224%22 fill=%22%23FFFFFF%22 fill-opacity=%220.3%22/></svg>">
 
@@ -41,6 +43,10 @@
             color: #000000;
         }
 
+        .font-brand {
+            font-family: 'Outfit', sans-serif;
+        }
+
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
@@ -57,6 +63,16 @@
 
         ::-webkit-scrollbar-thumb:hover {
             background: #bbb;
+        }
+
+        /* Hide scrollbar utility */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
         /* Patio-style Card */
@@ -164,8 +180,13 @@
         }
 
         .animate-scroll-left {
-            animation: scroll-left 60s linear infinite;
             width: max-content;
+        }
+
+        @media (min-width: 768px) {
+            .animate-scroll-left {
+                animation: scroll-left 60s linear infinite;
+            }
         }
 
         #projects-track .patio-card {
@@ -200,7 +221,7 @@
                         <circle cx="45" cy="60" r="4" fill="#FFFFFF" fill-opacity="0.3" />
                     </svg>
                 </div>
-                <span class="font-bold text-lg tracking-tight text-black">Avocado Apps</span>
+                <span class="font-brand font-bold text-lg tracking-tight text-black">Avocado Apps</span>
             </a>
 
             <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
@@ -313,7 +334,7 @@
 
         <!-- PROJECTS -->
         <section id="projects" class="py-24">
-            <div class="overflow-hidden mask-gradient">
+            <div class="overflow-x-auto md:overflow-hidden mask-gradient no-scrollbar mx-6 md:mx-0">
                 <div id="projects-track" class="flex gap-4 animate-scroll-left">
                     <!-- Project Card New -->
                     <a href="https://t.me/kutubist_bot" target="_blank"
@@ -1258,7 +1279,7 @@
                                 <circle cx="45" cy="60" r="4" fill="#FFFFFF" fill-opacity="0.3" />
                             </svg>
                         </div>
-                        <span class="font-bold text-2xl text-black">Avocado Apps</span>
+                        <span class="font-brand font-bold text-2xl text-black">Avocado Apps</span>
                     </div>
 
                     <!-- Stats -->
