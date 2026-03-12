@@ -992,18 +992,6 @@
                             </div>
                             <span class="font-bold group-hover:text-black transition-colors text-black">Telegram</span>
                         </a>
-                        <a href="https://instagram.com/avoc0der" target="_blank"
-                            class="patio-card p-8 flex flex-col items-center justify-center gap-4 group">
-                            <div
-                                class="w-12 h-12 flex items-center justify-center rounded-full bg-[#E1306C]/10 text-[#E1306C] group-hover:bg-[#E1306C] group-hover:text-white transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="currentColor" class="w-6 h-6">
-                                    <path
-                                        d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
-                                </svg>
-                            </div>
-                            <span class="font-bold group-hover:text-black transition-colors text-black">Instagram</span>
-                        </a>
                     </div>
                 </div>
             </section>
@@ -1056,8 +1044,6 @@
                                     class="text-gray-500 hover:text-black transition-colors font-medium">WhatsApp</a>
                                 <a href="https://t.me/avoc0der" target="_blank"
                                     class="text-gray-500 hover:text-black transition-colors font-medium">Telegram</a>
-                                <a href="https://instagram.com/avoc0der" target="_blank"
-                                    class="text-gray-500 hover:text-black transition-colors font-medium">Instagram</a>
                             </div>
                         </div>
                     </div>
@@ -1579,11 +1565,6 @@
                                 <iconify-icon icon="logos:whatsapp-icon" class="text-2xl group-hover:brightness-0 group-hover:invert transition-all"></iconify-icon>
                                 <span class="font-bold text-[#25D366] group-hover:text-white transition-colors">WhatsApp</span>
                             </button>
-
-                            <button onclick="openMessenger('email')" class="p-4 rounded-xl border-2 border-gray-200 hover:border-gray-900 hover:bg-gray-900 group transition-all flex items-center justify-center gap-3">
-                                <iconify-icon icon="solar:letter-bold" class="text-2xl text-gray-400 group-hover:text-white transition-colors"></iconify-icon>
-                                <span class="font-bold text-gray-600 group-hover:text-white transition-colors">Email</span>
-                            </button>
                         </div>
 
                         <button onclick="hideContactOptions()" class="mt-8 text-gray-400 hover:text-gray-600 font-medium text-sm flex items-center gap-1 transition-colors">
@@ -1606,6 +1587,7 @@
         const totalTimeElement = document.getElementById('total-time');
         const selectedItemsContainer = document.getElementById('selected-items');
         let hasManualFeatureChange = false;
+        const PRICE_LIMIT = 15000;
         const calculatorHash = '#calculator';
         const calculatorQueryKey = 'open';
         const calculatorQueryValue = 'calculator';
@@ -1877,14 +1859,30 @@
                 totalTimeElement.classList.remove('blur-sm', 'opacity-50');
                 totalPriceElement.classList.remove('blur-sm', 'opacity-50');
 
+                // Clamp displayed price at PRICE_LIMIT
+                const displayTotal = Math.min(total, PRICE_LIMIT);
+
                 // Animate Price
-                // Handle case where previous text was non-numeric
                 const startVal = parseInt(totalPriceElement.innerText.replace(/,/g, '')) || 0;
-                animateValue(totalPriceElement, startVal, total, 500);
-                
+                animateValue(totalPriceElement, startVal, displayTotal, 500);
+
+                // Show "+" suffix when over limit
+                const priceSuffix = totalPriceElement.parentElement.querySelector('.price-plus');
+                if (total > PRICE_LIMIT) {
+                    if (!priceSuffix) {
+                        const plus = document.createElement('span');
+                        plus.className = 'price-plus';
+                        plus.textContent = '+';
+                        totalPriceElement.after(plus);
+                    }
+                } else if (priceSuffix) {
+                    priceSuffix.remove();
+                }
+
                 // Update Time with slight reduction for optimistic delivery
                 const adjustedDays = Math.round(combinedDays * 0.85);
                 updateTime(adjustedDays);
+
             }
 
             // Update Summary List
